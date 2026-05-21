@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-ride-bg text-[#f4f5f8] antialiased;
+  }
+
+  ::selection {
+    @apply bg-ride-accent/30 text-white;
+  }
+}
+
+@layer components {
+  .container-site {
+    @apply mx-auto w-full max-w-[1120px] px-4;
+  }
+
+  .glass-card {
+    @apply rounded-[14px] border border-ride-border bg-ride-card/90 p-6 shadow-card backdrop-blur-md;
+  }
+
+  .eyebrow {
+    @apply mb-3 text-xs font-bold uppercase tracking-[0.14em] text-ride-accent;
+  }
+
+  .prose-legal h2 {
+    @apply mb-3 mt-8 text-lg font-semibold text-white;
+  }
+
+  .prose-legal p {
+    @apply mb-3 text-ride-muted;
+  }
+
+  .prose-legal ul {
+    @apply mb-4 list-disc space-y-2 pl-5 text-ride-muted;
+  }
+
+  .prose-legal a {
+    @apply text-ride-accent hover:underline;
+  }
+}
