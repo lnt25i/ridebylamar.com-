@@ -25,10 +25,10 @@ export const buttonBase = cn(
 
 export const buttonVariants: Record<ButtonVariant, string> = {
   primary: cn(
-    'btn-3d bg-ride-accent text-[#0A0A0A]',
+    'btn-3d bg-ride-accent text-[#0A0A0A] !text-[#0A0A0A]',
     'shadow-[0_8px_24px_rgba(255,122,0,0.32)]',
-    'hover:bg-[#ff8f26] hover:shadow-[0_12px_32px_rgba(255,122,0,0.42)] hover:-translate-y-px',
-    'active:scale-[0.98]'
+    'hover:bg-[#ff8f26] hover:!text-[#0A0A0A] hover:shadow-[0_12px_32px_rgba(255,122,0,0.42)] hover:-translate-y-px',
+    'active:scale-[0.98] active:!text-[#0A0A0A]'
   ),
   secondary: cn(
     'border border-white/12 bg-ride-elevated/70 text-white backdrop-blur-sm',

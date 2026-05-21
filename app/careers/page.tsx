@@ -33,7 +33,7 @@ export default function CareersPage() {
             <p>{driver.summary}</p>
             <p className="mt-4 text-sm text-ride-muted">{driver.futureApplyNote}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href={driver.applyCta.href}>Become a Driver</Button>
+              <Button href={driver.applyCta.href}>{driver.applyCta.label}</Button>
               <Button href="/contact" variant="secondary">
                 Contact support
               </Button>
@@ -61,7 +61,7 @@ export default function CareersPage() {
             <p className="mt-6 text-sm text-ride-muted">{requirements.disclaimer}</p>
                 <div className="mt-6">
                   <Button href={driver.applyCta.href} variant="outline" size="sm">
-                    Become a Driver
+                    {driver.applyCta.label}
                   </Button>
                 </div>
               </div>

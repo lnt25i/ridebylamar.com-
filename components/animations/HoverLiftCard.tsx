@@ -62,7 +62,14 @@ export function HoverLiftCard({ title, children, className, as: Tag = 'article' 
           }}
         />
         {title ? <h3 className="relative mb-2 text-lg font-semibold text-white">{title}</h3> : null}
-        <div className="relative text-ride-muted [&_a:not([data-ride-btn])]:font-semibold [&_a:not([data-ride-btn])]:text-ride-accent [&_a:not([data-ride-btn])]:no-underline hover:[&_a:not([data-ride-btn])]:underline">
+        <div
+          className={cn(
+            'relative text-ride-muted',
+            '[&_a:not([data-ride-btn])]:font-semibold [&_a:not([data-ride-btn])]:text-ride-accent [&_a:not([data-ride-btn])]:no-underline',
+            'hover:[&_a:not([data-ride-btn])]:underline',
+            '[&_a[data-ride-btn].bg-ride-accent]:!text-[#0A0A0A] hover:[&_a[data-ride-btn].bg-ride-accent]:!text-[#0A0A0A]'
+          )}
+        >
           {children}
         </div>
       </Component>
