@@ -18,7 +18,7 @@ export const careersContent = {
       status: 'Open for interest — onboarding launches by market',
       summary:
         'Drive with RIDE when your market opens. Complete verification, maintain platform standards, and use in-app tools for scheduling and earnings visibility.',
-      applyCta: { href: '/drivers', label: 'Learn about driving with RIDE' },
+      applyCta: { href: '/drivers', label: 'Become a Driver' },
       /** TODO: Replace with driver application URL or deep link when ready */
       futureApplyNote: 'A dedicated driver application flow will be available in the RIDE mobile app.',
     },

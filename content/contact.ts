@@ -30,6 +30,6 @@ export const contactContent = {
     'Account question',
     'Careers / driver interest',
   ],
-  submitLabel: 'Open email to send',
-  directLabel: 'Email support directly',
+  submitLabel: 'Email Support',
+  directLabel: 'Contact Support',
 } as const;

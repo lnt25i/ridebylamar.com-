@@ -1,52 +1,156 @@
-import Link from 'next/link';
-import type { ComponentProps, ReactNode } from 'react';
+'use client';
 
+import Link from 'next/link';
+import { type ReactNode } from 'react';
+
+import {
+  RIDE_BUTTON_ATTR,
+  type ButtonVariant,
+  getButtonClasses,
+} from '@/lib/styles/buttons';
 import { cn } from '@/lib/cn';
 
-type Variant = 'primary' | 'secondary' | 'ghost' | 'disabled';
+export type { ButtonVariant };
 
-const variants: Record<Variant, string> = {
-  primary:
-    'bg-ride-accent text-black hover:bg-[#ff8f26] shadow-[0_8px_24px_rgba(255,122,0,0.35)]',
-  secondary: 'border border-ride-border bg-transparent text-white hover:border-ride-accent/50',
-  ghost: 'text-ride-muted hover:text-white',
-  disabled: 'cursor-not-allowed border border-ride-border bg-ride-elevated/50 text-ride-muted opacity-60',
+type ButtonProps = {
+  variant?: ButtonVariant;
+  size?: 'default' | 'sm' | 'lg' | 'header' | 'full';
+  className?: string;
+  children: ReactNode;
+  href?: string;
+  external?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
+  comingSoon?: boolean;
+  'aria-label'?: string;
 };
 
-const base =
-  'inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition hover:-translate-y-0.5';
+function resolveVariant(
+  variant: ButtonVariant,
+  disabled?: boolean,
+  comingSoon?: boolean
+): ButtonVariant {
+  if (comingSoon) return 'comingSoon';
+  if (disabled) return 'disabled';
+  return variant;
+}
 
-type ButtonLinkProps = {
-  href: string;
-  variant?: Variant;
-  className?: string;
-  children: ReactNode;
-} & Omit<ComponentProps<typeof Link>, 'href' | 'children' | 'className'>;
+export function Button({
+  variant = 'primary',
+  size = 'default',
+  className,
+  children,
+  href,
+  external,
+  type = 'button',
+  disabled,
+  comingSoon,
+  'aria-label': ariaLabel,
+}: ButtonProps) {
+  const resolved = resolveVariant(variant, disabled, comingSoon);
+  const classes = getButtonClasses(resolved, className, size);
+  const isInactive = resolved === 'disabled' || resolved === 'comingSoon' || disabled;
 
-type ButtonNativeProps = {
-  href?: undefined;
-  variant?: Variant;
-  className?: string;
-  children: ReactNode;
-} & ComponentProps<'button'>;
-
-export function Button(props: ButtonLinkProps | ButtonNativeProps) {
-  const { variant = 'primary', className, children } = props;
-  const classes = cn(base, variants[variant], className);
-
-  if ('href' in props && props.href) {
-    const { href, variant: _v, className: _c, children: _ch, ...linkRest } = props;
+  if (href && !isInactive) {
+    if (external) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={classes}
+          {...{ [RIDE_BUTTON_ATTR]: true }}
+          aria-label={ariaLabel}
+        >
+          {children}
+        </a>
+      );
+    }
     return (
-      <Link href={href} className={classes} {...linkRest}>
+      <Link href={href} className={classes} {...{ [RIDE_BUTTON_ATTR]: true }} aria-label={ariaLabel}>
         {children}
       </Link>
     );
   }
 
-  const { type = 'button', variant: _v2, className: _c2, children: _ch2, ...buttonRest } = props as ButtonNativeProps;
+  if (href && isInactive) {
+    return (
+      <span
+        className={classes}
+        {...{ [RIDE_BUTTON_ATTR]: true }}
+        role="button"
+        aria-disabled="true"
+        aria-label={ariaLabel}
+      >
+        {children}
+      </span>
+    );
+  }
+
   return (
-    <button type={type} className={classes} disabled={variant === 'disabled'} {...buttonRest}>
+    <button
+      type={type}
+      className={classes}
+      disabled={isInactive}
+      {...{ [RIDE_BUTTON_ATTR]: true }}
+      aria-label={ariaLabel}
+    >
       {children}
     </button>
+  );
+}
+
+type StoreButtonProps = {
+  icon: ReactNode;
+  label: string;
+  href?: string;
+  comingSoonLabel: string;
+  className?: string;
+};
+
+export function StoreButton({ icon, label, href, comingSoonLabel, className }: StoreButtonProps) {
+  const active = Boolean(href?.trim());
+
+  const content = (
+    <>
+      <span className="shrink-0 text-white" aria-hidden>
+        {icon}
+      </span>
+      <span className="text-left text-sm leading-tight">
+        <span
+          className={cn(
+            'block text-[10px] font-bold uppercase tracking-wide',
+            active ? 'text-ride-muted' : 'text-ride-accent/90'
+          )}
+        >
+          {active ? 'Download' : comingSoonLabel}
+        </span>
+        <span className={cn('font-extrabold', active ? 'text-white' : 'text-white/90')}>{label}</span>
+      </span>
+    </>
+  );
+
+  if (active && href) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={getButtonClasses('store', className)}
+        {...{ [RIDE_BUTTON_ATTR]: true }}
+      >
+        {content}
+      </a>
+    );
+  }
+
+  return (
+    <div
+      className={getButtonClasses('comingSoon', cn('pointer-events-none opacity-90', className))}
+      aria-disabled
+      {...{ [RIDE_BUTTON_ATTR]: true }}
+    >
+      {content}
+    </div>
   );
 }

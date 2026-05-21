@@ -1,6 +1,7 @@
 import Link from 'next/link';
 
 import { PageHero } from '@/components/PageHero';
+import { RevealOnScroll } from '@/components/animations/RevealOnScroll';
 import { legalDraftNotice } from '@/content/legal';
 import { siteContent } from '@/content/site';
 import { buildPageMetadata } from '@/lib/metadata';
@@ -17,12 +18,13 @@ export default function AccountDeletionPage() {
   return (
     <>
       <PageHero
+        subtle
         eyebrow="Legal"
         title="Account deletion & data retention"
         description="How rider and driver account deletion interacts with retention obligations."
       />
       <section className="py-16">
-        <div className="prose-legal container-site max-w-3xl">
+        <RevealOnScroll subtle className="prose-legal container-site max-w-3xl">
           <p className="mb-6 inline-block rounded-lg border border-amber-500/35 bg-amber-500/10 px-4 py-2 text-sm font-semibold text-amber-200">
             {legalDraftNotice}
           </p>
@@ -37,7 +39,7 @@ export default function AccountDeletionPage() {
           <p>
             <Link href="/legal/privacy-policy">Privacy Policy</Link> · <Link href="/support">Support</Link>
           </p>
-        </div>
+        </RevealOnScroll>
       </section>
     </>
   );

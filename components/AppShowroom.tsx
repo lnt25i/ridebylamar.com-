@@ -1,12 +1,19 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Apple, Play } from 'lucide-react';
 import Link from 'next/link';
+import { useEffect, useRef } from 'react';
 
+import { Card3DTilt } from '@/components/Card3DTilt';
+import { FloatUp3D } from '@/components/FloatUp3D';
+import { AnimatedGlowBackground } from '@/components/animations/AnimatedGlowBackground';
+import { FloatingAppIcon } from '@/components/animations/FloatingAppIcon';
+import { StaggerGroup, StaggerItem } from '@/components/animations/StaggerGroup';
+import { RevealOnScroll } from '@/components/animations/RevealOnScroll';
+import { AppStoreBadges } from '@/components/AppStoreBadges';
+import { animate } from '@/lib/animations/anime';
+import { DURATION, EASE_PREMIUM } from '@/lib/animations/config';
 import { appLinksContent } from '@/content/app-links';
-import { RideAppIcon } from '@/components/RideAppIcon';
-import { Button } from '@/components/ui/Button';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/cn';
 
 type AppShowroomProps = {
@@ -14,128 +21,126 @@ type AppShowroomProps = {
 };
 
 export function AppShowroom({ compact = false }: AppShowroomProps) {
-  const { showroom, appStoreUrl, googlePlayUrl, labels } = appLinksContent;
-  const hasAppStore = Boolean(appStoreUrl.trim());
-  const hasGooglePlay = Boolean(googlePlayUrl.trim());
+  const { showroom } = appLinksContent;
+  const reduced = useReducedMotion();
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduced || !previewRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        animate(previewRef.current!, {
+          opacity: [0, 1],
+          scale: [0.94, 1],
+          duration: DURATION.slow,
+          ease: EASE_PREMIUM,
+        });
+        observer.disconnect();
+      },
+      { threshold: 0.15, rootMargin: '-40px' }
+    );
+    observer.observe(previewRef.current);
+    return () => observer.disconnect();
+  }, [reduced]);
 
   return (
-    <section
-      id="get-the-app"
-      className={cn('relative overflow-hidden', compact ? 'py-12' : 'py-20')}
-    >
-      <div className="absolute inset-0 bg-hero-gradient" aria-hidden />
-      <div className="container-site relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="glass-card grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center"
-        >
-          <div>
-            <p className="eyebrow">{showroom.eyebrow}</p>
-            <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">{showroom.title}</h2>
-            <p className="mb-6 max-w-prose text-ride-muted">{showroom.description}</p>
-            <ul className="mb-8 space-y-2 text-sm text-ride-muted">
-              {showroom.features.map((f) => (
-                <li key={f} className="flex gap-2">
-                  <span className="text-ride-accent">•</span>
-                  {f}
-                </li>
-              ))}
-            </ul>
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              <StoreButton
-                icon={<Apple className="h-6 w-6" aria-hidden />}
-                label={labels.appStore}
-                href={hasAppStore ? appStoreUrl : undefined}
-                comingSoonLabel={labels.comingSoon}
-              />
-              <StoreButton
-                icon={<Play className="h-6 w-6 fill-current" aria-hidden />}
-                label={labels.googlePlay}
-                href={hasGooglePlay ? googlePlayUrl : undefined}
-                comingSoonLabel={labels.comingSoon}
-              />
-            </div>
+    <FloatUp3D index={compact ? 1 : 0}>
+      <section id="get-the-app" className={cn('relative overflow-hidden', compact ? 'py-12' : 'py-20')}>
+        <div className="absolute inset-0 bg-hero-gradient" aria-hidden />
+        <AnimatedGlowBackground variant="section" />
+        <div className="container-site relative">
+          <RevealOnScroll>
+            <Card3DTilt intensity={10} className="glass-card grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+              <StaggerGroup className="flex flex-col">
+            <StaggerItem>
+              <p className="eyebrow">{showroom.eyebrow}</p>
+            </StaggerItem>
+            <StaggerItem>
+              <h2 className="mb-4 text-3xl font-bold tracking-tight text-white md:text-4xl">{showroom.title}</h2>
+            </StaggerItem>
+            <StaggerItem>
+              <p className="mb-6 max-w-prose text-ride-muted">{showroom.description}</p>
+            </StaggerItem>
+            <StaggerItem>
+              <ul className="mb-8 space-y-2 text-sm text-ride-muted">
+                {showroom.features.map((f) => (
+                  <li key={f} className="flex gap-2">
+                    <span className="text-ride-accent">•</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </StaggerItem>
+            <StaggerItem>
+              <AppStoreBadges />
+            </StaggerItem>
             {!compact ? (
-              <p className="mt-6 text-xs text-ride-muted">
-                Store links activate when URLs are set in <code className="text-ride-accent/90">content/app-links.ts</code>.
-              </p>
+              <StaggerItem>
+                <p className="mt-6 text-xs text-ride-muted">
+                  Store links activate when URLs are set in{' '}
+                  <code className="text-ride-accent/90">content/app-links.ts</code>.
+                </p>
+              </StaggerItem>
             ) : null}
-          </div>
+              </StaggerGroup>
 
-          <Link
-            href="/app"
-            className="group mx-auto flex max-w-sm flex-col items-center rounded-2xl border border-ride-border bg-ride-elevated/80 p-8 transition hover:border-ride-accent/40"
-            aria-label="View RIDE app download page"
-          >
-            <div className="relative mb-6">
-              <div className="absolute -inset-4 rounded-full bg-ride-accent/20 blur-2xl transition group-hover:bg-ride-accent/30" />
-              <RideAppIcon size={120} className="relative" />
-            </div>
-            <div className="w-full rounded-[28px] border border-ride-border bg-black/60 p-4 shadow-card">
-              <div className="mb-3 flex items-center justify-between text-xs text-ride-muted">
-                <span>RIDE</span>
-                <span>Preview</span>
-              </div>
-              <div className="space-y-2">
-                <div className="h-10 rounded-lg bg-ride-card" />
-                <div className="h-24 rounded-lg bg-gradient-to-br from-ride-accent/20 to-transparent" />
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="h-8 rounded-lg bg-ride-card" />
-                  <div className="h-8 rounded-lg bg-ride-card" />
+              <Card3DTilt intensity={12} className="mx-auto w-full max-w-sm">
+                <div ref={previewRef} className={cn(!reduced && 'opacity-0')}>
+                  <Link
+                    href="/app"
+                    className="group flex flex-col items-center rounded-2xl border border-ride-border bg-ride-elevated/80 p-8 transition-colors hover:border-ride-accent/40"
+                    aria-label="View RIDE app download page"
+                  >
+                    <FloatingAppIcon size={120} orbit className="mb-6" />
+                    <PhonePreview reduced={reduced} />
+                    <span className="mt-4 text-sm font-medium text-ride-accent group-hover:underline">
+                      View app page →
+                    </span>
+                  </Link>
                 </div>
-              </div>
-            </div>
-            <span className="mt-4 text-sm font-medium text-ride-accent group-hover:underline">
-              View app page →
-            </span>
-          </Link>
-        </motion.div>
-      </div>
-    </section>
+              </Card3DTilt>
+            </Card3DTilt>
+          </RevealOnScroll>
+        </div>
+      </section>
+    </FloatUp3D>
   );
 }
 
-function StoreButton({
-  icon,
-  label,
-  href,
-  comingSoonLabel,
-}: {
-  icon: React.ReactNode;
-  label: string;
-  href?: string;
-  comingSoonLabel: string;
-}) {
-  if (href) {
-    return (
-      <a
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex min-w-[200px] items-center gap-3 rounded-xl border border-ride-border bg-black/40 px-4 py-3 transition hover:border-ride-accent/50 hover:bg-ride-accent/10"
-      >
-        {icon}
-        <span className="text-left text-sm leading-tight">
-          <span className="block text-[10px] uppercase tracking-wide text-ride-muted">Download</span>
-          <span className="font-semibold text-white">{label}</span>
-        </span>
-      </a>
-    );
-  }
+function PhonePreview({ reduced }: { reduced: boolean }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reduced || !ref.current) return;
+    const el = ref.current;
+    const enter = () => animate(el, { translateY: -4, duration: DURATION.fast, ease: EASE_PREMIUM });
+    const leave = () => animate(el, { translateY: 0, duration: DURATION.fast, ease: EASE_PREMIUM });
+    el.parentElement?.addEventListener('mouseenter', enter);
+    el.parentElement?.addEventListener('mouseleave', leave);
+    return () => {
+      el.parentElement?.removeEventListener('mouseenter', enter);
+      el.parentElement?.removeEventListener('mouseleave', leave);
+    };
+  }, [reduced]);
 
   return (
     <div
-      className="inline-flex min-w-[200px] cursor-not-allowed items-center gap-3 rounded-xl border border-ride-border bg-ride-elevated/60 px-4 py-3 opacity-75"
-      aria-disabled
+      ref={ref}
+      className="w-full rounded-[28px] border border-ride-border bg-black/60 p-4 shadow-card"
     >
-      {icon}
-      <span className="text-left text-sm leading-tight">
-        <span className="block text-[10px] uppercase tracking-wide text-ride-muted">{comingSoonLabel}</span>
-        <span className="font-semibold text-white">{label}</span>
-      </span>
+      <div className="mb-3 flex items-center justify-between text-xs text-ride-muted">
+        <span>RIDE</span>
+        <span>Preview</span>
+      </div>
+      <div className="space-y-2">
+        <div className="h-10 rounded-lg bg-ride-card" />
+        <div className="h-24 rounded-lg bg-gradient-to-br from-ride-accent/20 to-transparent" />
+        <div className="grid grid-cols-2 gap-2">
+          <div className="h-8 rounded-lg bg-ride-card" />
+          <div className="h-8 rounded-lg bg-ride-card" />
+        </div>
+      </div>
     </div>
   );
 }

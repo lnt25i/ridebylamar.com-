@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import { AnimeProvider } from '@/components/animations/AnimeProvider';
+import { PageTransition } from '@/components/PageTransition';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SiteHeader } from '@/components/SiteHeader';
 import { siteContent } from '@/content/site';
@@ -22,9 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={inter.className}>
       <body className="min-h-screen">
-        <SiteHeader />
-        <main>{children}</main>
-        <SiteFooter />
+        <AnimeProvider>
+          <SiteHeader />
+          <PageTransition>{children}</PageTransition>
+          <SiteFooter />
+        </AnimeProvider>
       </body>
     </html>
   );

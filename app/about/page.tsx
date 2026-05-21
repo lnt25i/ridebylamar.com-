@@ -1,6 +1,14 @@
 import { PageHero } from '@/components/PageHero';
-import { SocialLinks } from '@/components/SocialLinks';
+import { MotionSection } from '@/components/MotionSection';
+import { Reveal } from '@/components/motion/Reveal';
+import { StaggerContainer, StaggerItem } from '@/components/motion/StaggerContainer';
 import { GlassCard } from '@/components/ui/GlassCard';
+import { SocialLinks } from '@/components/SocialLinks';
+import {
+  highlightLamarTechnology,
+  LamarTechnologyName,
+  PoweredByLamarTechnology,
+} from '@/components/LamarTechnologyBrand';
 import { siteContent } from '@/content/site';
 import { buildPageMetadata } from '@/lib/metadata';
 
@@ -11,28 +19,42 @@ export const metadata = buildPageMetadata({
 });
 
 export default function AboutPage() {
-  const { about, brand } = siteContent;
+  const { about } = siteContent;
 
   return (
     <>
-      <PageHero eyebrow="About" title={about.title} description={about.lead} />
-      <section className="py-16">
-        <div className="container-site max-w-2xl space-y-4 text-ride-muted">
-          <p className="text-lg text-white">{about.mission}</p>
-          {about.paragraphs.map((p) => (
-            <p key={p}>{p}</p>
+      <PageHero eyebrow="About" description={about.lead} subtle>
+        <h1 className="mb-4 max-w-3xl text-3xl font-bold tracking-tight text-white md:text-4xl">
+          RIDE is powered by <LamarTechnologyName />
+        </h1>
+      </PageHero>
+      <MotionSection className="py-16">
+        <div className="container-site max-w-2xl space-y-4">
+          <Reveal>
+            <p className="text-lg text-white">{about.mission}</p>
+          </Reveal>
+          {about.paragraphs.map((p, i) => (
+            <Reveal key={p} delay={0.05 * (i + 1)}>
+              <p className="text-ride-muted">{highlightLamarTechnology(p)}</p>
+            </Reveal>
           ))}
-          <p className="font-semibold text-white">{brand.poweredByLine}</p>
-          <SocialLinks className="pt-4" />
+          <Reveal delay={0.2}>
+            <PoweredByLamarTechnology className="font-semibold" prefixClassName="text-white" />
+            <SocialLinks className="pt-4" />
+          </Reveal>
         </div>
-      </section>
+      </MotionSection>
       <section className="border-t border-ride-border py-16">
-        <div className="container-site grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {about.pillars.map((p) => (
-            <GlassCard key={p.title} title={p.title}>
-              <p>{p.description}</p>
-            </GlassCard>
-          ))}
+        <div className="container-site">
+          <StaggerContainer className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {about.pillars.map((p) => (
+              <StaggerItem key={p.title}>
+                <GlassCard title={p.title}>
+                  <p>{p.description}</p>
+                </GlassCard>
+              </StaggerItem>
+            ))}
+          </StaggerContainer>
         </div>
       </section>
     </>

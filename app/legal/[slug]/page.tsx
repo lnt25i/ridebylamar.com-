@@ -30,7 +30,7 @@ export default async function LegalDocumentPage({ params }: Props) {
 
   return (
     <>
-      <PageHero eyebrow="Legal" title={doc.title} description={doc.description} />
+      <PageHero subtle parallax={false} eyebrow="Legal" title={doc.title} description={doc.description} />
       <section className="py-16">
         <div className="container-site max-w-3xl">
           <LegalDocument doc={doc} />

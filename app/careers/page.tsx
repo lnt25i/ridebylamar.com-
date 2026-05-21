@@ -1,5 +1,7 @@
 import { CheckCircle2 } from 'lucide-react';
 
+import { Card3DTilt } from '@/components/Card3DTilt';
+import { FloatUp3D } from '@/components/FloatUp3D';
 import { PageHero } from '@/components/PageHero';
 import { GlassCard } from '@/components/ui/GlassCard';
 import { Button } from '@/components/ui/Button';
@@ -23,25 +25,29 @@ export default function CareersPage() {
     <>
       <PageHero eyebrow={page.eyebrow} title={page.title} description={page.lead} />
 
-      <section className="py-16">
-        <div className="container-site max-w-3xl">
-          <GlassCard title={driver.title}>
+      <FloatUp3D index={0}>
+        <section className="py-16">
+          <div className="container-site max-w-3xl">
+            <GlassCard title={driver.title}>
             <p className="mb-2 text-sm font-semibold text-ride-accent">{driver.status}</p>
             <p>{driver.summary}</p>
             <p className="mt-4 text-sm text-ride-muted">{driver.futureApplyNote}</p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button href={driver.applyCta.href}>{driver.applyCta.label}</Button>
+              <Button href={driver.applyCta.href}>Become a Driver</Button>
               <Button href="/contact" variant="secondary">
                 Contact support
               </Button>
             </div>
-          </GlassCard>
-        </div>
-      </section>
+            </GlassCard>
+          </div>
+        </section>
+      </FloatUp3D>
 
-      <section className="border-y border-ride-border bg-ride-elevated/40 py-16">
-        <div className="container-site grid gap-10 lg:grid-cols-2">
-          <div>
+      <FloatUp3D index={1}>
+        <section className="border-y border-ride-border bg-ride-elevated/40 py-16">
+          <div className="container-site grid gap-10 lg:grid-cols-2">
+            <Card3DTilt intensity={8}>
+              <div className="glass-card h-full">
             <h2 className="mb-4 text-2xl font-bold text-white">{requirements.title}</h2>
             <p className="mb-6 text-ride-muted">{requirements.intro}</p>
             <ul className="space-y-3">
@@ -53,9 +59,16 @@ export default function CareersPage() {
               ))}
             </ul>
             <p className="mt-6 text-sm text-ride-muted">{requirements.disclaimer}</p>
-          </div>
-          <div>
-            <h2 className="mb-4 text-2xl font-bold text-white">{benefits.title}</h2>
+                <div className="mt-6">
+                  <Button href={driver.applyCta.href} variant="outline" size="sm">
+                    Become a Driver
+                  </Button>
+                </div>
+              </div>
+            </Card3DTilt>
+            <Card3DTilt intensity={12}>
+              <div className="glass-card h-full">
+                <h2 className="mb-4 text-2xl font-bold text-white">{benefits.title}</h2>
             <ul className="space-y-3">
               {benefits.items.map((item) => (
                 <li key={item} className="flex gap-3 text-ride-muted">
@@ -63,35 +76,32 @@ export default function CareersPage() {
                   {item}
                 </li>
               ))}
-            </ul>
+                </ul>
+              </div>
+            </Card3DTilt>
           </div>
-        </div>
-      </section>
+        </section>
+      </FloatUp3D>
 
-      <section className="py-16">
-        <div className="container-site max-w-2xl text-center">
+      <FloatUp3D index={2}>
+        <section className="py-16">
+          <div className="container-site max-w-2xl text-center">
           <h2 className="mb-3 text-2xl font-bold text-white">{linkedIn.title}</h2>
           <p className="mb-6 text-ride-muted">{linkedIn.description}</p>
           {linkedInUrl ? (
-            <a
-              href={linkedInUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex rounded-full bg-ride-accent px-6 py-3 font-semibold text-black hover:bg-[#ff8f26]"
-            >
+            <Button href={linkedInUrl} external>
               {linkedIn.buttonLabel}
-            </a>
+            </Button>
           ) : (
-            <span className="inline-flex cursor-not-allowed rounded-full border border-ride-border px-6 py-3 font-semibold text-ride-muted">
-              {linkedIn.comingSoonLabel}
-            </span>
+            <Button comingSoon>{linkedIn.comingSoonLabel}</Button>
           )}
           <p className="mt-4 text-xs text-ride-muted">
             Add your URL in <code className="text-ride-accent">content/social-links.ts</code> →{' '}
             <code>links.linkedin</code>
           </p>
-        </div>
-      </section>
+          </div>
+        </section>
+      </FloatUp3D>
     </>
   );
 }

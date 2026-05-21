@@ -1,5 +1,6 @@
 import { ContactForm } from '@/components/ContactForm';
 import { PageHero } from '@/components/PageHero';
+import { Reveal } from '@/components/motion/Reveal';
 import { SocialLinks } from '@/components/SocialLinks';
 import { contactContent } from '@/content/contact';
 import { siteContent } from '@/content/site';
@@ -22,14 +23,14 @@ export default function ContactPage() {
       <section className="py-16">
         <div className="container-site flex flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-between">
           <ContactForm />
-          <div className="max-w-xs shrink-0">
+          <Reveal className="max-w-xs shrink-0">
             <p className="mb-4 font-semibold text-white">Follow RIDE</p>
             <p className="mb-4 text-sm text-ride-muted">
               Official social accounts will be linked here when available. Update URLs in{' '}
               <code className="text-ride-accent">content/social-links.ts</code>.
             </p>
             <SocialLinks />
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

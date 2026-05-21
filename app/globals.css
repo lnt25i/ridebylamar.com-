@@ -7,6 +7,20 @@
     scroll-behavior: smooth;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
   body {
     @apply bg-ride-bg text-[#f4f5f8] antialiased;
   }
@@ -43,5 +57,16 @@
 
   .prose-legal a {
     @apply text-ride-accent hover:underline;
+  }
+
+  /* 3D depth on hover for primary orange buttons */
+  .btn-3d {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transform-style: preserve-3d;
+  }
+
+  .btn-3d:hover {
+    transform: perspective(600px) translateZ(8px) scale(1.04);
+    box-shadow: 0 12px 32px rgba(255, 149, 0, 0.3);
   }
 }
