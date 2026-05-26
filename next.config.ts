@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
       { source: '/safety-policy', destination: '/legal/safety-policy', permanent: true },
       { source: '/community-guidelines', destination: '/legal/community-guidelines', permanent: true },
       { source: '/electronic-consent', destination: '/electronic-disclosure', permanent: false },
+      { source: '/privacy-rights', destination: '/legal/privacy-policy', permanent: false },
+      { source: '/investors', destination: '/about', permanent: false },
+      { source: '/checkr-authorization', destination: '/legal/background-check-disclosure', permanent: false },
     ];
   },
 };
