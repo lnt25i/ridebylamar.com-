@@ -86,7 +86,7 @@ export function FloatingAppIcon({
       <div className="absolute -inset-4 rounded-full bg-ride-accent/20 blur-2xl transition-opacity duration-500 group-hover:opacity-90" />
       <div
         ref={floatRef}
-        className={cn('relative', entrance && !reduced && 'opacity-0')}
+        className="relative opacity-100"
       >
         <RideAppIcon size={size} className="relative" />
       </div>

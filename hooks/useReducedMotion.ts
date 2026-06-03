@@ -2,9 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+export function getPrefersReducedMotion(): boolean {
+  if (typeof window === 'undefined') return false;
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 /** Respects `prefers-reduced-motion: reduce` for accessible animation fallbacks. */
 export function useReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(false);
+  const [reduced, setReduced] = useState(getPrefersReducedMotion);
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)');

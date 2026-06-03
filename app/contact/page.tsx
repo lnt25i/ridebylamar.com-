@@ -20,10 +20,10 @@ export default function ContactPage() {
         title={contactContent.page.title}
         description={`${contactContent.page.lead} Email ${siteContent.contact.supportEmail}.`}
       />
-      <section className="py-16">
-        <div className="container-site flex flex-col items-center gap-12 lg:flex-row lg:items-start lg:justify-between">
+      <section className="section-site">
+        <div className="container-site flex flex-col items-stretch gap-10 sm:gap-12 lg:flex-row lg:items-start lg:justify-between">
           <ContactForm />
-          <Reveal className="max-w-xs shrink-0">
+          <Reveal className="w-full max-w-xs lg:shrink-0">
             <p className="mb-4 font-semibold text-white">Follow RIDE</p>
             <p className="mb-4 text-sm text-ride-muted">
               Official social accounts will be linked here when available. Update URLs in{' '}

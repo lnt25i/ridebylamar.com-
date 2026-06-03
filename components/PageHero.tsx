@@ -7,6 +7,7 @@ import { AnimatedGlowBackground } from '@/components/animations/AnimatedGlowBack
 import { Parallax3DHero } from '@/components/Parallax3DHero';
 import { animate, createHeroTimeline } from '@/lib/animations/anime';
 import { DURATION } from '@/lib/animations/config';
+import { useCoarsePointer } from '@/hooks/useCoarsePointer';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/cn';
 
@@ -32,14 +33,16 @@ export function PageHero({
   parallax = true,
 }: PageHeroProps) {
   const reduced = useReducedMotion();
+  const coarse = useCoarsePointer();
+  const useParallax = parallax && !reduced && !coarse;
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    if (reduced || !sectionRef.current) return;
+    if (reduced || !sectionRef.current || !eyebrow) return;
     const eyebrowEl = sectionRef.current.querySelector('[data-page-eyebrow]');
     if (!eyebrowEl) return;
     const tl = createHeroTimeline(reduced);
-    tl.add(eyebrowEl, { opacity: [0, 1], translateY: [12, 0], duration: DURATION.fast });
+    tl.add(eyebrowEl, { opacity: [0, 1], translateY: [10, 0], duration: DURATION.fast });
     return () => {
       tl.revert();
     };
@@ -50,7 +53,7 @@ export function PageHero({
   const heroContent = (
     <>
       {eyebrow ? (
-        <p data-page-eyebrow className={cn('eyebrow', !reduced && 'opacity-0')}>
+        <p data-page-eyebrow className="eyebrow">
           {eyebrow}
         </p>
       ) : null}
@@ -58,25 +61,23 @@ export function PageHero({
         reduced ? (
           <h1
             className={cn(
-              'mb-4 max-w-3xl font-bold tracking-tight',
+              'mb-4 max-w-3xl font-bold tracking-tight text-ride-accent',
               centered ? 'mx-auto' : '',
-              subtle ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl'
+              subtle ? 'text-3xl md:text-4xl' : 'heading-page'
             )}
-            style={{ color: '#FF9500', fontWeight: 700 }}
           >
             {title}
           </h1>
         ) : (
           <motion.h1
-            initial={{ opacity: 0, y: 32, filter: 'blur(8px)' }}
-            animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-            transition={{ duration: 0.75, ease: EASE_HERO }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE_HERO }}
             className={cn(
-              'mb-4 max-w-3xl font-bold tracking-tight',
+              'mb-4 max-w-3xl font-bold tracking-tight text-ride-accent',
               centered ? 'mx-auto' : '',
-              subtle ? 'text-3xl md:text-4xl' : 'text-4xl md:text-5xl'
+              subtle ? 'text-3xl md:text-4xl' : 'heading-page'
             )}
-            style={{ color: '#FF9500', fontWeight: 700 }}
           >
             {title}
           </motion.h1>
@@ -103,10 +104,10 @@ export function PageHero({
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden border-b border-ride-border bg-hero-gradient py-16 md:py-20"
+      className="relative overflow-hidden border-b border-ride-border bg-hero-gradient py-10 sm:py-16 md:py-20"
     >
       {!subtle ? <AnimatedGlowBackground variant="section" /> : null}
-      {parallax ? (
+      {useParallax ? (
         <Parallax3DHero className={containerClass}>{heroContent}</Parallax3DHero>
       ) : (
         <div className={containerClass}>{heroContent}</div>

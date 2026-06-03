@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { createElement, type ElementType, type ReactNode } from 'react';
 
+import { useLightMotion } from '@/hooks/useLightMotion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/cn';
 
@@ -15,12 +16,21 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariantsDesktop = {
   hidden: { opacity: 0, y: 40 },
   show: {
     opacity: 1,
     y: 0,
     transition: { duration: 0.55, ease: EASE_REVEAL },
+  },
+};
+
+const itemVariantsLight = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: EASE_REVEAL },
   },
 };
 
@@ -32,6 +42,7 @@ type StaggerGroupProps = {
 
 export function StaggerGroup({ children, className, as: Tag = 'div' }: StaggerGroupProps) {
   const reduced = useReducedMotion();
+  const lightMotion = useLightMotion();
 
   if (reduced) {
     return createElement(Tag, { className: cn(className) }, children);
@@ -42,7 +53,7 @@ export function StaggerGroup({ children, className, as: Tag = 'div' }: StaggerGr
     variants: containerVariants,
     initial: 'hidden' as const,
     whileInView: 'show' as const,
-    viewport: { once: true, margin: '-80px' },
+    viewport: { once: true, margin: lightMotion ? '-48px' : '-80px' },
   };
 
   if (Tag === 'ul') {
@@ -64,6 +75,7 @@ export function StaggerItem({
   as?: ElementType;
 }) {
   const reduced = useReducedMotion();
+  const lightMotion = useLightMotion();
 
   if (reduced) {
     return createElement(Tag, { className: cn(className) }, children);
@@ -71,7 +83,7 @@ export function StaggerItem({
 
   const itemProps = {
     className: cn(className),
-    variants: itemVariants,
+    variants: lightMotion ? itemVariantsLight : itemVariantsDesktop,
     'data-stagger-item': true,
   };
 

@@ -15,9 +15,9 @@ import { useReducedMotion } from '@/hooks/useReducedMotion';
 export function SiteFooter() {
   const { brand, contact, footerLinks } = siteContent;
   return (
-    <RevealOnScroll as="footer" className="mt-20 border-t border-ride-border bg-ride-elevated py-14">
+    <RevealOnScroll as="footer" className="mt-16 border-t border-ride-border bg-ride-elevated py-12 sm:mt-20 sm:py-14">
       <div className="container-site">
-        <div className="grid gap-10 lg:grid-cols-[1.2fr_1fr_1fr]">
+        <div className="grid gap-10 sm:gap-12 lg:grid-cols-[1.2fr_1fr_1fr]">
           <div>
             <RideLogo width={150} />
             <PoweredByLamarTechnology className="mt-4 text-sm" prefixClassName="text-ride-muted" />
@@ -32,7 +32,7 @@ export function SiteFooter() {
               <FooterLink href={contact.siteUrl}>{contact.domain}</FooterLink>
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-8 text-sm">
+          <div className="grid grid-cols-2 gap-6 text-sm sm:gap-8">
             <div>
               <p className="mb-3 font-semibold text-white">Explore</p>
               <ul className="space-y-2 text-ride-muted">
@@ -71,7 +71,7 @@ function FooterLink({ href, children }: { href: string; children: ReactNode }) {
     <a
       ref={ref}
       href={href}
-      className="text-ride-accent hover:underline"
+      className="link-premium"
       onMouseEnter={() => {
         if (reduced || !ref.current) return;
         animate(ref.current, { opacity: 0.85, duration: DURATION.fast, ease: EASE_PREMIUM });
@@ -90,7 +90,7 @@ function FooterNavLink({ href, children }: { href: string; children: ReactNode }
   return (
     <Link
       href={href}
-      className="transition-colors hover:text-ride-accent hover:underline decoration-ride-accent/50 underline-offset-4"
+      className="rounded-sm transition-colors hover:text-ride-accent hover:underline decoration-ride-accent/50 underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ride-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ride-elevated"
     >
       {children}
     </Link>

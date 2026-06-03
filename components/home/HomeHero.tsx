@@ -20,7 +20,7 @@ export function HomeHero() {
   const headlineWords = home.heroTitle.split(' ');
 
   return (
-    <section className="relative overflow-hidden border-b border-ride-border py-16 md:py-28">
+    <section className="relative overflow-hidden border-b border-ride-border py-10 sm:py-20 md:py-28">
       <div className="absolute inset-0 bg-hero-gradient" aria-hidden />
       <AnimatedGlowBackground variant="hero" />
       <HeroParticles />
@@ -41,16 +41,21 @@ export function HomeHero() {
             </motion.span>
           )}
 
-          <AnimatedLogo width={300} priority entrance className="relative z-[1] mb-2" />
+          <AnimatedLogo
+            width={280}
+            priority
+            entrance
+            className="relative z-[1] mb-2 w-[220px] sm:w-[260px] md:w-[300px]"
+          />
 
           <HeroHeadline
             text={home.heroTitle}
-            className="relative z-[1] mt-8 text-4xl font-bold tracking-tight text-white md:text-5xl lg:text-[3.25rem]"
+            className="relative z-[1] mt-6 text-display-sm font-bold tracking-tight text-white sm:mt-8 sm:text-display-md md:text-display-lg"
           />
 
           <HeroSubtextFade
             wordCount={headlineWords.length}
-            className="relative z-[1] mt-5 max-w-2xl text-lg text-white/90"
+            className="relative z-[1] mt-4 max-w-2xl px-1 text-base leading-relaxed text-white/90 sm:mt-5 sm:text-lg"
           >
             {highlightLamarTechnology(home.heroLead)}
           </HeroSubtextFade>
@@ -64,7 +69,7 @@ export function HomeHero() {
           </HeroSubtextFade>
 
           {reduced ? (
-            <div className="relative z-[1] mt-10 flex flex-wrap justify-center gap-3">
+            <div className="relative z-[1] mt-8 flex w-full max-w-md flex-col justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap">
               {home.heroCtas.map((cta) => (
                 <AnimatedButton key={cta.href} href={cta.href} variant={cta.variant}>
                   {cta.label}
@@ -73,7 +78,7 @@ export function HomeHero() {
             </div>
           ) : (
             <motion.div
-              className="relative z-[1] mt-10 flex flex-wrap justify-center gap-3"
+              className="relative z-[1] mt-8 flex w-full max-w-md flex-col justify-center gap-3 sm:mt-10 sm:max-w-none sm:flex-row sm:flex-wrap"
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{

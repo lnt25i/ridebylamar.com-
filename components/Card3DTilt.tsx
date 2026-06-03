@@ -1,12 +1,24 @@
 'use client';
-import { useRef, MouseEvent, ReactNode } from 'react';
 
-export function Card3DTilt({ children, className, intensity = 10 }: {
-  children: ReactNode; className?: string; intensity?: number;
+import { useRef, type MouseEvent, type ReactNode } from 'react';
+
+import { useLightMotion } from '@/hooks/useLightMotion';
+import { cn } from '@/lib/cn';
+
+export function Card3DTilt({
+  children,
+  className,
+  intensity = 10,
+}: {
+  children: ReactNode;
+  className?: string;
+  intensity?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const lightMotion = useLightMotion();
 
   const onMove = (e: MouseEvent<HTMLDivElement>) => {
+    if (lightMotion) return;
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
@@ -19,14 +31,26 @@ export function Card3DTilt({ children, className, intensity = 10 }: {
   const onLeave = () => {
     const el = ref.current;
     if (!el) return;
-    el.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-    el.style.boxShadow = 'none';
+    el.style.transform = '';
+    el.style.boxShadow = '';
   };
 
   return (
-    <div ref={ref} className={className}
-      style={{ transition:'transform 0.18s ease, box-shadow 0.18s ease', transformStyle:'preserve-3d', willChange:'transform' }}
-      onMouseMove={onMove} onMouseLeave={onLeave}>
+    <div
+      ref={ref}
+      className={cn(className)}
+      style={
+        lightMotion
+          ? undefined
+          : {
+              transition: 'transform 0.18s ease, box-shadow 0.18s ease',
+              transformStyle: 'preserve-3d',
+              willChange: 'transform',
+            }
+      }
+      onMouseMove={lightMotion ? undefined : onMove}
+      onMouseLeave={lightMotion ? undefined : onLeave}
+    >
       {children}
     </div>
   );

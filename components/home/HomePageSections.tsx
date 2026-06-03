@@ -11,20 +11,20 @@ export function HomePageSections() {
   return (
     <>
       <FloatUp3D index={0}>
-        <section className="py-16">
+        <section className="section-site">
           <div className="container-site">
-            <h2 className="mb-3 text-3xl font-bold text-white md:text-4xl">{home.whyTitle}</h2>
-            <p className="max-w-2xl text-lg text-ride-muted">{home.whyLead}</p>
+            <h2 className="heading-section mb-3">{home.whyTitle}</h2>
+            <p className="text-lead max-w-2xl">{home.whyLead}</p>
           </div>
         </section>
       </FloatUp3D>
 
-      <section className="border-y border-ride-border bg-ride-elevated/30 py-16">
+      <section className="border-y border-ride-border bg-ride-elevated/30 section-site">
         <div className="container-site">
           <FloatUp3D index={1}>
-            <h2 className="mb-10 text-center text-2xl font-bold text-white">What we are building</h2>
+            <h2 className="heading-section mb-8 text-center sm:mb-10">What we are building</h2>
           </FloatUp3D>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {about.pillars.map((pillar, i) => (
               <FloatUp3D key={pillar.title} index={i + 2}>
                 <Card3DTilt intensity={i % 2 === 0 ? 8 : 12}>
@@ -36,7 +36,7 @@ export function HomePageSections() {
               </FloatUp3D>
             ))}
           </div>
-          <FloatUp3D index={6} className="mt-10 flex flex-wrap justify-center gap-3">
+          <FloatUp3D index={6} className="mt-8 flex flex-col justify-center gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
             <AnimatedButton href="/app" variant="primary">
               Get the App
             </AnimatedButton>

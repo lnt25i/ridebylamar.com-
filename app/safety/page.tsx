@@ -54,7 +54,7 @@ export default function SafetyPage() {
         title="Safety-first platform design"
         description="Realistic language about verification, trip support, and reporting — without overstating what is live in every market."
       />
-      <MotionSection className="py-16">
+      <MotionSection className="section-site">
         <div className="container-site max-w-3xl">
           {SAFETY_SECTIONS.slice(0, 3).map((section, i) => (
             <AccordionSection
@@ -81,7 +81,7 @@ export default function SafetyPage() {
             </AccordionSection>
           ))}
 
-          <StairSection index={6} className="mt-8 flex flex-wrap gap-3">
+          <StairSection index={6} className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <MotionButton href="/legal/safety-policy" variant="secondary">
               Safety policy (draft)
             </MotionButton>

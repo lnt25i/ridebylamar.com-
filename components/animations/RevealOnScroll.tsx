@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import type { ReactNode } from 'react';
 
+import { useLightMotion } from '@/hooks/useLightMotion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/cn';
 
@@ -34,6 +35,7 @@ export function RevealOnScroll({
   once = true,
 }: RevealOnScrollProps) {
   const reduced = useReducedMotion();
+  const lightMotion = useLightMotion();
   const MotionTag = tagMap[Tag];
 
   if (reduced) {
@@ -41,13 +43,15 @@ export function RevealOnScroll({
     return <Plain className={className}>{children}</Plain>;
   }
 
+  const yOffset = lightMotion ? (subtle ? 12 : 20) : subtle ? 20 : 36;
+
   return (
     <MotionTag
       className={cn(className)}
-      initial={{ opacity: 0, y: subtle ? 30 : 50 }}
+      initial={{ opacity: 0, y: yOffset }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once, margin: '-80px' }}
-      transition={{ duration: 0.6, delay, ease: EASE_REVEAL }}
+      viewport={{ once, margin: lightMotion ? '-40px' : '-64px' }}
+      transition={{ duration: lightMotion ? 0.4 : 0.55, delay, ease: EASE_REVEAL }}
       data-anime-reveal
     >
       {children}

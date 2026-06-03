@@ -13,6 +13,7 @@ import { AppStoreBadges } from '@/components/AppStoreBadges';
 import { animate } from '@/lib/animations/anime';
 import { DURATION, EASE_PREMIUM } from '@/lib/animations/config';
 import { appLinksContent } from '@/content/app-links';
+import { useLightMotion } from '@/hooks/useLightMotion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import { cn } from '@/lib/cn';
 
@@ -23,10 +24,15 @@ type AppShowroomProps = {
 export function AppShowroom({ compact = false }: AppShowroomProps) {
   const { showroom } = appLinksContent;
   const reduced = useReducedMotion();
+  const lightMotion = useLightMotion();
   const previewRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (reduced || !previewRef.current) return;
+    if (!previewRef.current) return;
+    if (reduced || lightMotion) {
+      previewRef.current.style.opacity = '1';
+      return;
+    }
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting) return;
@@ -42,16 +48,19 @@ export function AppShowroom({ compact = false }: AppShowroomProps) {
     );
     observer.observe(previewRef.current);
     return () => observer.disconnect();
-  }, [reduced]);
+  }, [reduced, lightMotion]);
 
   return (
     <FloatUp3D index={compact ? 1 : 0}>
-      <section id="get-the-app" className={cn('relative overflow-hidden', compact ? 'py-12' : 'py-20')}>
+      <section
+        id="get-the-app"
+        className={cn('relative overflow-hidden', compact ? 'section-site-tight' : 'section-site')}
+      >
         <div className="absolute inset-0 bg-hero-gradient" aria-hidden />
         <AnimatedGlowBackground variant="section" />
         <div className="container-site relative">
           <RevealOnScroll>
-            <Card3DTilt intensity={10} className="glass-card grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+            <Card3DTilt intensity={10} className="glass-card grid gap-8 sm:gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-center">
               <StaggerGroup className="flex flex-col">
             <StaggerItem>
               <p className="eyebrow">{showroom.eyebrow}</p>
@@ -86,7 +95,7 @@ export function AppShowroom({ compact = false }: AppShowroomProps) {
               </StaggerGroup>
 
               <Card3DTilt intensity={12} className="mx-auto w-full max-w-sm">
-                <div ref={previewRef} className={cn(!reduced && 'opacity-0')}>
+                <div ref={previewRef} className={cn(reduced || lightMotion ? 'opacity-100' : 'opacity-0')}>
                   <Link
                     href="/app"
                     className="group flex flex-col items-center rounded-2xl border border-ride-border bg-ride-elevated/80 p-8 transition-colors hover:border-ride-accent/40"

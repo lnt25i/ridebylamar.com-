@@ -5,6 +5,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -22,37 +23,76 @@
   }
 
   body {
-    @apply bg-ride-bg text-[#f4f5f8] antialiased;
+    @apply overflow-x-hidden bg-ride-bg text-[#f4f5f8] antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
     @apply bg-ride-accent/30 text-white;
   }
+
+  :focus-visible {
+    outline: none;
+  }
+
+  img,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
 }
 
 @layer components {
   .container-site {
-    @apply mx-auto w-full max-w-[1120px] px-4;
+    @apply mx-auto w-full max-w-[1120px] px-5 sm:px-6;
+  }
+
+  .section-site {
+    @apply py-14 md:py-20;
+  }
+
+  .section-site-tight {
+    @apply py-12 md:py-16;
+  }
+
+  .heading-page {
+    @apply text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl;
+  }
+
+  .heading-section {
+    @apply text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl;
+  }
+
+  .text-lead {
+    @apply text-base leading-relaxed text-ride-muted sm:text-lg;
+  }
+
+  .link-premium {
+    @apply font-semibold text-ride-accent underline-offset-4 transition-colors duration-200 hover:text-[#ff8f26] hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ride-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ride-bg;
   }
 
   .glass-card {
-    @apply rounded-[14px] border border-ride-border bg-ride-card/90 p-6 shadow-card backdrop-blur-md;
+    @apply rounded-2xl border border-ride-border bg-ride-card/90 p-5 shadow-card backdrop-blur-md sm:p-6;
+  }
+
+  .glass-card:focus-within {
+    @apply border-ride-accent/25;
   }
 
   .eyebrow {
-    @apply mb-3 text-xs font-bold uppercase tracking-[0.14em] text-ride-accent;
+    @apply mb-3 text-[11px] font-bold uppercase tracking-[0.16em] text-ride-accent sm:text-xs;
   }
 
   .prose-legal h2 {
-    @apply mb-3 mt-8 text-lg font-semibold text-white;
+    @apply mb-3 mt-8 text-base font-semibold text-white sm:text-lg;
   }
 
   .prose-legal p {
-    @apply mb-3 text-ride-muted;
+    @apply mb-3 text-sm leading-relaxed text-ride-muted sm:text-base;
   }
 
   .prose-legal ul {
-    @apply mb-4 list-disc space-y-2 pl-5 text-ride-muted;
+    @apply mb-4 list-disc space-y-2 pl-5 text-sm text-ride-muted sm:text-base;
   }
 
   .prose-legal a {
@@ -65,8 +105,10 @@
     transform-style: preserve-3d;
   }
 
-  .btn-3d:hover {
-    transform: perspective(600px) translateZ(8px) scale(1.04);
-    box-shadow: 0 12px 32px rgba(255, 149, 0, 0.3);
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .btn-3d:hover {
+      transform: perspective(600px) translateZ(8px) scale(1.04);
+      box-shadow: 0 12px 32px rgba(255, 149, 0, 0.3);
+    }
   }
 }

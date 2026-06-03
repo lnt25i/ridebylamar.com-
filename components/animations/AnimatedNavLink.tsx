@@ -35,7 +35,7 @@ export function AnimatedNavLink({ href, label, active, onClick }: AnimatedNavLin
       href={href}
       onClick={onClick}
       className={cn(
-        'group relative rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors',
+        'group relative rounded-lg px-2.5 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ride-accent/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ride-bg',
         active ? 'text-ride-accent' : 'text-ride-muted hover:text-white'
       )}
       onMouseEnter={() => {
@@ -57,11 +57,19 @@ export function AnimatedNavLink({ href, label, active, onClick }: AnimatedNavLin
       <span
         ref={lineRef}
         className="absolute bottom-0 left-2.5 right-2.5 h-px origin-left bg-ride-accent"
-        style={{
-          transform: 'scaleX(0)',
-          opacity: 0,
-          boxShadow: active ? '0 0 12px rgba(255,122,0,0.45)' : undefined,
-        }}
+        style={
+          reduced
+            ? {
+                transform: active ? 'scaleX(1)' : 'scaleX(0)',
+                opacity: active ? 1 : 0,
+                boxShadow: active ? '0 0 12px rgba(255,122,0,0.45)' : undefined,
+              }
+            : {
+                transform: 'scaleX(0)',
+                opacity: 0,
+                boxShadow: active ? '0 0 12px rgba(255,122,0,0.45)' : undefined,
+              }
+        }
       />
     </Link>
   );
