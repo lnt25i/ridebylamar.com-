@@ -80,6 +80,50 @@ export const legalDocuments: LegalDocument[] = [
           'You may contact us regarding access, correction, or deletion requests where permitted by law. Some records may be retained for legal, tax, or safety obligations.',
         ],
       },
+      {
+        heading: '4. SMS and text messaging',
+        paragraphs: [
+          'If you provide a mobile number, RIDE (Lamar Technology LLC) may send SMS text messages for account security and service notifications — most importantly one-time verification passcodes (2FA) to confirm your phone number. You opt in within the RIDE mobile app: during sign-up and in Account → Phone you enter your own mobile number and tap “Send code,” and the screen discloses that you agree to receive a one-time verification passcode by SMS. Message frequency depends on your verification requests. Message and data rates may apply.',
+          'You can opt out at any time by replying STOP to any message; reply HELP for help. Opting out of verification texts may prevent you from completing phone verification. We do not sell or share your mobile number or SMS consent with third parties or affiliates for their marketing. See our SMS Messaging Terms at https://www.ridebylamar.com/legal/sms-terms.',
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'sms-terms',
+    title: 'SMS Messaging Terms',
+    description: 'How RIDE sends text messages: opt-in consent, frequency, and opt-out.',
+    sections: [
+      {
+        heading: 'Program description',
+        paragraphs: [
+          'RIDE (Lamar Technology LLC) uses SMS text messaging to send account-security and service messages — primarily one-time verification passcodes (2FA) used to confirm your mobile number during sign-up and when you add or change your phone number. RIDE does not send marketing or promotional text messages.',
+        ],
+      },
+      {
+        heading: 'How you opt in',
+        paragraphs: [
+          'You opt in inside the RIDE mobile app. During sign-up, and in Account → Phone, you enter your own mobile number and tap “Send code.” Directly above that button the app states: “By tapping Send code, you agree to receive a one-time verification passcode by SMS from RIDE at the number provided. Message frequency depends on your verification requests. Msg & data rates may apply. Reply STOP to opt out, HELP for help.” Exactly one passcode is sent per request, only to verify the number you just entered.',
+        ],
+      },
+      {
+        heading: 'Message frequency and cost',
+        paragraphs: [
+          'Message frequency depends on how many verification requests you make (typically one message per request). Message and data rates may apply, depending on your mobile carrier and plan.',
+        ],
+      },
+      {
+        heading: 'Opt-out and help',
+        paragraphs: [
+          'Reply STOP to any message to stop receiving texts; reply HELP for help. You can also contact support@ridebylamar.com. Opting out of verification messages may prevent you from completing phone verification and using features that require a verified number.',
+        ],
+      },
+      {
+        heading: 'Privacy',
+        paragraphs: [
+          'We do not sell or share your mobile number or your SMS consent with third parties or affiliates for their own marketing. See our Privacy Policy at https://www.ridebylamar.com/legal/privacy-policy.',
+        ],
+      },
     ],
   },
   {
