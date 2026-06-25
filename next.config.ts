@@ -16,9 +16,12 @@ const nextConfig: NextConfig = {
       { source: '/background-check', destination: '/legal/background-check-disclosure', permanent: true },
       { source: '/safety-policy', destination: '/legal/safety-policy', permanent: true },
       { source: '/community-guidelines', destination: '/legal/community-guidelines', permanent: true },
+      { source: '/sms-terms', destination: '/legal/sms-terms', permanent: true },
+      { source: '/sms', destination: '/legal/sms-terms', permanent: true },
       { source: '/electronic-consent', destination: '/electronic-disclosure', permanent: false },
       { source: '/privacy-rights', destination: '/legal/privacy-policy', permanent: false },
-      { source: '/investors', destination: '/about', permanent: false },
+      { source: '/own-a-piece', destination: '/investors', permanent: false },
+      { source: '/ownership', destination: '/investors', permanent: false },
       { source: '/checkr-authorization', destination: '/legal/background-check-disclosure', permanent: false },
     ];
   },
